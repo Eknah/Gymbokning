@@ -19,7 +19,7 @@ namespace Gymbokning.Data
 
 			await userManager.CreateAsync(adminUser, "Zxcvbn3#");
 
-			//await userManager.AddToRoleAsync(adminUser, "Admin");
+			await userManager.AddToRoleAsync(adminUser, "Admin");
 
 
 			//var roles = GenerateRoles();
