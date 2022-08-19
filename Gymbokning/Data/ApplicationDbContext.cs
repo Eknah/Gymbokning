@@ -12,5 +12,12 @@ namespace Gymbokning.Data
 			: base(options)
 		{
 		}
+
+		protected override void OnModelCreating(ModelBuilder builder)
+		{
+			base.OnModelCreating(builder);
+
+			builder.Entity<ApplicationUserGymClass>().HasKey(table => new { table.ApplicationUserId, table.GymClassId });
+		}
 	}
 }
