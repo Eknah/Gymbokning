@@ -18,6 +18,28 @@ builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
+// Seeddata
+using (var scope = app.Services.CreateScope())
+{
+	var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+	var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+	var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+
+	db.Database.EnsureDeleted();
+	db.Database.Migrate();
+
+	try
+	{
+		await SeedData.InitAsync(db, roleManager, userManager);
+	}
+	catch (Exception e)
+	{
+		var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+		logger.LogError(string.Join(" ", e.Message));
+		//throw;
+	}
+}
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
