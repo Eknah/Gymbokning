@@ -4,6 +4,7 @@ using Gymbokning.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Gymbokning.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220819112121_Update1")]
+    partial class Update1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -95,13 +97,12 @@ namespace Gymbokning.Data.Migrations
                     b.Property<int>("GymClassId")
                         .HasColumnType("int");
 
-                    b.Property<string>("ApplicationUseId")
-                        .IsRequired()
+                    b.Property<string>("ApplicationUserId1")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("ApplicationUserId", "GymClassId");
 
-                    b.HasIndex("ApplicationUseId");
+                    b.HasIndex("ApplicationUserId1");
 
                     b.HasIndex("GymClassId");
 
@@ -274,21 +275,15 @@ namespace Gymbokning.Data.Migrations
 
             modelBuilder.Entity("Gymbokning.Models.ApplicationUserGymClass", b =>
                 {
-                    b.HasOne("Gymbokning.Models.ApplicationUser", "ApplicationUse")
+                    b.HasOne("Gymbokning.Models.ApplicationUser", null)
                         .WithMany("GymPasses")
-                        .HasForeignKey("ApplicationUseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ApplicationUserId1");
 
-                    b.HasOne("Gymbokning.Models.GymClass", "GymClass")
+                    b.HasOne("Gymbokning.Models.GymClass", null)
                         .WithMany("ApplicationUsers")
                         .HasForeignKey("GymClassId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("ApplicationUse");
-
-                    b.Navigation("GymClass");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
