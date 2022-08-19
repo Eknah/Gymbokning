@@ -6,6 +6,6 @@ namespace Gymbokning.Models
 	{
 		// Navigation properties
 
-		public List<ApplicationUserGymClass> GymPasses { get; set; } = new();
+		public List<ApplicationUserGymClass> AttendedGymPasses { get; set; } = new();
 	}
 }

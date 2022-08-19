@@ -11,6 +11,6 @@
 
 		// Navigation properties
 
-		public List<ApplicationUserGymClass> ApplicationUsers { get; set; } = new();
+		public List<ApplicationUserGymClass> AttendingMembers { get; set; } = new();
 	}
 }

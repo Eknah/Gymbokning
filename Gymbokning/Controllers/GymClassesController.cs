@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Gymbokning.Data;
 using Gymbokning.Models;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Gymbokning.Controllers
 {
@@ -159,5 +161,29 @@ namespace Gymbokning.Controllers
         {
           return (_context.GymClass?.Any(e => e.Id == id)).GetValueOrDefault();
         }
+
+		[Authorize]
+		public async Task<IActionResult> BookingToggle(int? id)
+		{
+			if (id == null) return NotFound();
+
+			var gymClass = _context.GymClass!.Find(id);
+
+			var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+			var user = _context.Users.Find(userId);
+
+			var booking = gymClass.AttendingMembers.FirstOrDefault(m => m.ApplicationUserId == userId);
+
+			var userAlreadyBooked = booking != null;
+
+			if (userAlreadyBooked)
+				gymClass.AttendingMembers.Remove(booking);
+			else
+				gymClass.AttendingMembers.Add(new ApplicationUserGymClass() { GymClass = gymClass, Member = user});
+
+			return RedirectToAction(nameof(Index));
+
+		}
+
     }
 }

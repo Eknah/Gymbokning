@@ -4,16 +4,18 @@ using Gymbokning.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Gymbokning.Data.Migrations
+namespace Gymbokning.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220819113809_Init")]
+    partial class Init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -89,19 +91,13 @@ namespace Gymbokning.Data.Migrations
 
             modelBuilder.Entity("Gymbokning.Models.ApplicationUserGymClass", b =>
                 {
-                    b.Property<int>("ApplicationUserId")
-                        .HasColumnType("int");
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("GymClassId")
                         .HasColumnType("int");
 
-                    b.Property<string>("ApplicationUseId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("ApplicationUserId", "GymClassId");
-
-                    b.HasIndex("ApplicationUseId");
 
                     b.HasIndex("GymClassId");
 
@@ -274,21 +270,21 @@ namespace Gymbokning.Data.Migrations
 
             modelBuilder.Entity("Gymbokning.Models.ApplicationUserGymClass", b =>
                 {
-                    b.HasOne("Gymbokning.Models.ApplicationUser", "ApplicationUse")
-                        .WithMany("GymPasses")
-                        .HasForeignKey("ApplicationUseId")
+                    b.HasOne("Gymbokning.Models.ApplicationUser", "Member")
+                        .WithMany("AttendedGymPasses")
+                        .HasForeignKey("ApplicationUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Gymbokning.Models.GymClass", "GymClass")
-                        .WithMany("ApplicationUsers")
+                        .WithMany("AttendingMembers")
                         .HasForeignKey("GymClassId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ApplicationUse");
-
                     b.Navigation("GymClass");
+
+                    b.Navigation("Member");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -344,12 +340,12 @@ namespace Gymbokning.Data.Migrations
 
             modelBuilder.Entity("Gymbokning.Models.ApplicationUser", b =>
                 {
-                    b.Navigation("GymPasses");
+                    b.Navigation("AttendedGymPasses");
                 });
 
             modelBuilder.Entity("Gymbokning.Models.GymClass", b =>
                 {
-                    b.Navigation("ApplicationUsers");
+                    b.Navigation("AttendingMembers");
                 });
 #pragma warning restore 612, 618
         }
