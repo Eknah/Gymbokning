@@ -38,6 +38,8 @@ namespace Gymbokning.Controllers
             }
 
             var gymClass = await _context.GymClass
+				.Include(c => c.AttendingMembers)
+				.ThenInclude(m => m.Member)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (gymClass == null)
             {
@@ -167,7 +169,7 @@ namespace Gymbokning.Controllers
 		{
 			if (id == null) return NotFound();
 
-			var gymClass = _context.GymClass!.Find(id);
+			var gymClass = _context.GymClass!.Include(c => c.AttendingMembers).FirstOrDefault(c => c.Id == id);
 
 			var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 			var user = _context.Users.Find(userId);
@@ -180,6 +182,8 @@ namespace Gymbokning.Controllers
 				gymClass.AttendingMembers.Remove(booking);
 			else
 				gymClass.AttendingMembers.Add(new ApplicationUserGymClass() { GymClass = gymClass, Member = user});
+
+			await _context.SaveChangesAsync();
 
 			return RedirectToAction(nameof(Index));
 
