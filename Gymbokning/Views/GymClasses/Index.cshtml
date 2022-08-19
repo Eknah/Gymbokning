@@ -43,10 +43,13 @@
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
-                <a asp-action="BookingToggle" asp-route-id="@item.Id">Book</a>
+				@if (User.Identity.IsAuthenticated)
+				{
+					<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> @Html.Raw("|")
+					<a asp-action="Details" asp-route-id="@item.Id">Details</a> @Html.Raw("|")
+					<a asp-action="Delete" asp-route-id="@item.Id">Delete</a> @Html.Raw("|")
+					<a asp-action="BookingToggle" asp-route-id="@item.Id">Book</a> @Html.Raw("|")
+				}
             </td>
         </tr>
 }
