@@ -13,12 +13,25 @@ namespace Gymbokning.Data
 			{
 				Email = "admin@Gymbokning.se",
 				UserName = "admin@Gymbokning.se",
+				FirstName = "Admin",
+				LastName = "Adminsson",
 				EmailConfirmed = true
 			};
 
 			await userManager.CreateAsync(adminUser, "Zxcvbn3#");
 
 			await userManager.AddToRoleAsync(adminUser, "Admin");
+
+			var normalUser = new ApplicationUser()
+			{
+				Email = "sven@svenssion.se",
+				UserName = "sven@svenssion.se",
+				FirstName = "Sven",
+				LastName = "Svensson",
+				EmailConfirmed = true
+			};
+
+			await userManager.CreateAsync(normalUser, "Zxcvbn3#");
 		}
 	}
 }
