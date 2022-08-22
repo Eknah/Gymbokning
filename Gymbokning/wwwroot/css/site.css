@@ -16,3 +16,15 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.oldClasses {
+	color: gray;
+}
+
+.oldClassesStroked {
+	text-decoration: line-through;
+}
+
+.oldClassesVisibility {
+display: none;
+}

@@ -1,5 +1,6 @@
 ﻿@using System.Security.Claims
-@model IEnumerable<Gymbokning.Models.GymClass>
+@using Gymbokning.Models.ViewModels
+@model GymClassesIndexViewModel
 
 @{
 	ViewData["Title"] = "Index";
@@ -7,32 +8,77 @@
 
 <h1>Index</h1>
 
-<p>
-	@if (User.IsInRole("Admin"))
-	{
+
+@if (User.IsInRole("Admin"))
+{
+	<p>
 		<a asp-action="Create">Create New</a>
-	}
+	</p>
+}
+
+<p>
+	<input type="checkbox" id="cbShowHistory" name="showHistory" />
+	<label for="showHistory">Show Pass History</label>
 </p>
+
 <table class="table">
 	<thead>
 		<tr>
 			<th>
-				@Html.DisplayNameFor(model => model.Name)
+				@Html.DisplayNameFor(model => model.UpcomingGymClasses.First().Name)
 			</th>
 			<th>
-				@Html.DisplayNameFor(model => model.StartTime)
+				@Html.DisplayNameFor(model => model.UpcomingGymClasses.First().StartTime)
 			</th>
 			<th>
-				@Html.DisplayNameFor(model => model.Duration)
+				@Html.DisplayNameFor(model => model.UpcomingGymClasses.First().Duration)
 			</th>
 			<th>
-				@Html.DisplayNameFor(model => model.Description)
+				@Html.DisplayNameFor(model => model.UpcomingGymClasses.First().Description)
 			</th>
 			<th></th>
 		</tr>
 	</thead>
 	<tbody>
-		@foreach (var item in Model)
+
+		<tr id="oldClassesHeader" class="oldClassesVisibility">
+		<th colspan="3">Old classes</th>
+		</tr>
+		@foreach (var item in Model.OldGymClasses)
+		{
+			<tr id="oldClassesContent" class="oldClasses oldClassesVisibility">
+				<td>
+					@Html.DisplayFor(modelItem => item.Name)
+				</td>
+				<td class="oldClassesStroked">
+					@Html.DisplayFor(modelItem => item.StartTime)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Duration)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Description)
+				</td>
+				<td>
+					@if (User.Identity.IsAuthenticated)
+					{
+						<a asp-action="Details" asp-route-id="@item.Id">Details</a>
+
+						@if (User.IsInRole("Admin"))
+						{
+							@Html.Raw("|")
+							<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> @Html.Raw("|")
+							<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+						}
+					}
+				</td>
+			</tr>
+		}
+		
+		<tr>
+		<th colspan="3">Upcoming classes</th>
+		</tr>
+		@foreach (var item in Model.UpcomingGymClasses)
 		{
 			<tr>
 				<td>

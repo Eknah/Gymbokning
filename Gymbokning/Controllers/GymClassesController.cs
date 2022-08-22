@@ -9,6 +9,7 @@ using Gymbokning.Data;
 using Gymbokning.Models;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using Gymbokning.Models.ViewModels;
 
 namespace Gymbokning.Controllers
 {
@@ -21,11 +22,17 @@ namespace Gymbokning.Controllers
             _context = context;
         }
 
-        // GET: GymClasses
-        public async Task<IActionResult> Index()
-        {
+		// GET: GymClasses
+		public async Task<IActionResult> Index()
+		{
+			GymClassesIndexViewModel viewModel = new()
+			{
+				OldGymClasses = await _context.GymClass.Include(c => c.AttendingMembers).Where(c => c.StartTime < DateTime.Now).ToListAsync(),
+				UpcomingGymClasses = await _context.GymClass.Include(c => c.AttendingMembers).Where(c => c.StartTime >= DateTime.Now).ToListAsync()
+			};
+
               return _context.GymClass != null ? 
-                          View(await _context.GymClass.Include(c => c.AttendingMembers).ToListAsync()) :
+                          View(viewModel) :
                           Problem("Entity set 'ApplicationDbContext.GymClass'  is null.");
         }
 

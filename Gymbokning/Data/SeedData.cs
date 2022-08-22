@@ -62,7 +62,7 @@ namespace Gymbokning.Data
 
 			gymClasses.Add(new GymClass()
 			{
-				Name = "Gympass A",
+				Name = "Gympass C",
 				Description = "Ännu ett gympass",
 				StartTime = DateTime.Now.AddDays(0),
 				Duration = new TimeSpan(1, 30, 0)
@@ -70,7 +70,7 @@ namespace Gymbokning.Data
 
 			gymClasses.Add(new GymClass()
 			{
-				Name = "Gympass C",
+				Name = "Gympass D",
 				Description = "Ytterligare ett gympass",
 				StartTime = DateTime.Now.AddDays(1),
 				Duration = new TimeSpan(0, 50, 0)
@@ -78,7 +78,7 @@ namespace Gymbokning.Data
 
 			gymClasses.Add(new GymClass()
 			{
-				Name = "Gympass D",
+				Name = "Gympass E",
 				Description = "Ett sista gympass",
 				StartTime = DateTime.Now.AddDays(2),
 				Duration = new TimeSpan(1, 10, 0)
