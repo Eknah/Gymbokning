@@ -203,5 +203,15 @@ namespace Gymbokning.Controllers
 
 		}
 
+		public IActionResult Booked()
+		{
+			return View();
+		}
+
+		public IActionResult History()
+		{
+			return View();
+		}
+
     }
 }
