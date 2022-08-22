@@ -216,9 +216,16 @@ namespace Gymbokning.Controllers
 						
 		}
 
-		public IActionResult History()
+		public async Task<IActionResult> History()
 		{
-			return View();
+			if (_context.GymClass == null)
+				Problem("Entity set 'ApplicationDbContext.GymClass'  is null.");
+
+			var classes = await _context.GymClass.Include(c => c.AttendingMembers).ToListAsync();
+
+			var results = classes.Where(c => c.StartTime < DateTime.Now).Where(c => c.AttendingMembers.FirstOrDefault(m => m.ApplicationUserId == User.FindFirstValue(ClaimTypes.NameIdentifier)) != null);
+
+			return View(results);
 		}
 
     }

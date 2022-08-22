@@ -64,7 +64,7 @@ namespace Gymbokning.Data
 			{
 				Name = "Gympass C",
 				Description = "Ännu ett gympass",
-				StartTime = DateTime.Now.AddDays(0),
+				StartTime = DateTime.Now.AddDays(0).AddMinutes(1),
 				Duration = new TimeSpan(1, 30, 0)
 			});
 
