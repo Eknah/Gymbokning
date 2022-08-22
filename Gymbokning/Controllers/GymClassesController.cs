@@ -25,7 +25,7 @@ namespace Gymbokning.Controllers
         public async Task<IActionResult> Index()
         {
               return _context.GymClass != null ? 
-                          View(await _context.GymClass.ToListAsync()) :
+                          View(await _context.GymClass.Include(c => c.AttendingMembers).ToListAsync()) :
                           Problem("Entity set 'ApplicationDbContext.GymClass'  is null.");
         }
 
