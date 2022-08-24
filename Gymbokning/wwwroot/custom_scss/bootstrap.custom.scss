@@ -1,9 +1,21 @@
-﻿@import "../lib/bootstrap/scss/bootstrap";
-
+﻿
 $primary: #0094ff;
-$white: white;
-@import "../lib/bootstrap/scss/bootstrap";
+
+$lightblue: #e8faff;
+$white: #fff;
+
+$body-bg: #274958;
+$body-color: $lightblue;
+
+$navbar-light-color: $lightblue;
+$navbar-light-hover-color: $white;
 
 nav.navbar {
-	background: linear-gradient($primary, $white)
+	background: linear-gradient($primary, $body-bg);
 }
+
+.navbar-brand {
+	color: $lightblue !important;
+}
+
+@import "../lib/bootstrap/scss/bootstrap";
