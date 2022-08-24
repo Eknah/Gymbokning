@@ -22,15 +22,18 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
 	var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-	var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-	var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
 	db.Database.EnsureDeleted();
 	db.Database.Migrate();
 
 	try
 	{
-		await SeedData.InitAsync(db, roleManager, userManager);
+		var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+		var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+		var config = scope.ServiceProvider.GetRequiredService<IConfiguration>();
+		var adminPassword = config["AdminPassword"];
+
+		await SeedData.InitAsync(db, roleManager, userManager, adminPassword);
 	}
 	catch (Exception e)
 	{

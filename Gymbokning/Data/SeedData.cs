@@ -5,7 +5,7 @@ namespace Gymbokning.Data
 {
 	public class SeedData
 	{
-		public static async Task InitAsync(ApplicationDbContext db, RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
+		public static async Task InitAsync(ApplicationDbContext db, RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager, string adminPassword)
 		{
 			await roleManager.CreateAsync(new IdentityRole() { Name = "Admin" });
 
@@ -18,20 +18,9 @@ namespace Gymbokning.Data
 				EmailConfirmed = true
 			};
 
-			await userManager.CreateAsync(adminUser, "Zxcvbn3#");
+			await userManager.CreateAsync(adminUser, adminPassword);
 
 			await userManager.AddToRoleAsync(adminUser, "Admin");
-
-			var normalUser = new ApplicationUser()
-			{
-				Email = "sven@svenssion.se",
-				UserName = "sven@svenssion.se",
-				FirstName = "Sven",
-				LastName = "Svensson",
-				EmailConfirmed = true
-			};
-
-			await userManager.CreateAsync(normalUser, "Zxcvbn3#");
 
 			var gymClasses = AddGymClasses();
 
